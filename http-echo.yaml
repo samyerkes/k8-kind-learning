@@ -18,6 +18,9 @@ spec:
       - name: echo-server
         image: ealen/echo-server
         imagePullPolicy: Always
+        env:
+          - name: GREETING
+            value: "Hello from the environment"
         ports:
         - containerPort: 80
 ---
