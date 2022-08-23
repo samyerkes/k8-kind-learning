@@ -1,4 +1,4 @@
-# Demo Kind Cluster Configuration
+# K8 Learning with Kind
 
 ## Things to learn
 
