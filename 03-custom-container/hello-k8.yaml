@@ -1,0 +1,55 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-k8-deployment
+  labels:
+    app: hello-k8
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-k8
+  template:
+    metadata:
+      labels:
+        app: hello-k8
+    spec:
+      containers:
+      - name: hello-k8
+        image: docker.io/library/hello-k8
+        # https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/
+        imagePullPolicy: Never
+        env:
+          - name: PORT
+            value: "80"
+        ports:
+        - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-k8-service
+spec:
+  selector:
+    app: hello-k8
+  ports:
+  # Default port used by the image
+  - port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-k8-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: hello-k8-service
+            port:
+              number: 80
+---
