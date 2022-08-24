@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: my-job
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: my-job
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            job: my-job
+        spec:
+          containers:
+          - image: docker.io/library/my-job
+            # https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/
+            imagePullPolicy: Never
+            name: my-job
+            resources: {}
+          restartPolicy: OnFailure
+  schedule: '* * * * *'
+status: {}
