@@ -10,3 +10,4 @@
 * Set up prometheus / grafana
 * Get logs
 * Set up sealed secrets
+* GitOps with [FluxCD](https://fluxcd.io/)
