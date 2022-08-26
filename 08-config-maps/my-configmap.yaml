@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: my-configmap
+  namespace: my-namespace
+data:
+  name: "Bob"
+  greeting: "Hello"
+  port: "80"

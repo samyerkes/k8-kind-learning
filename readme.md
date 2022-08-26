@@ -12,3 +12,4 @@
 * Set up sealed secrets
 * GitOps with [FluxCD](https://fluxcd.io/)
 * Learn how to use Kustomize to set up different environments of the same app
+* What are ConfigMaps

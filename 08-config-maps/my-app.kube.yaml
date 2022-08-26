@@ -1,0 +1,71 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-config-map-deployment
+  namespace: my-namespace
+  labels:
+    app: hello-config-map
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-config-map
+  template:
+    metadata:
+      labels:
+        app: hello-config-map
+    spec:
+      containers:
+      - name: hello-config-map
+        image: docker.io/library/hello-config-map
+        # https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/
+        imagePullPolicy: Never
+        env:
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: my-configmap
+                key: port
+          - name: NAME
+            valueFrom:
+              configMapKeyRef:
+                name: my-configmap
+                key: name
+          - name: GREETING
+            valueFrom:
+              configMapKeyRef:
+                name: my-configmap
+                key: greeting
+        ports:
+        - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-config-map-service
+  namespace: my-namespace
+spec:
+  selector:
+    app: hello-config-map
+  ports:
+  # Default port used by the image
+  - port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-config-map-ingress
+  namespace: my-namespace
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: hello-config-map-service
+            port:
+              number: 80
+---
