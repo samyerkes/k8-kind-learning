@@ -27,9 +27,15 @@ kubens
 kubens my-namespace
 ```
 
+Ensure you have the [helm repo installed][echo-server-helm] on your local machine:
+```
+helm repo add ealenn https://ealenn.github.io/charts
+helm repo update
+```
+
 Deploy the helm chart:
 ```
-helm upgrade -i echo-server ealenn/echo-server --force
+helm install --set ingress.enable=true echo-server ealenn/echo-server
 ```
 
 Update the helm chart with new values:
@@ -56,3 +62,5 @@ kubectl delete all --all
 helm uninstall echo-server
 kind delete cluster --name my-cluster
 ```
+
+[echo-server-helm]:https://github.com/Ealenn/Echo-Server#kubernetes-with-helm
